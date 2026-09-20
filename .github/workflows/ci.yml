@@ -30,6 +30,7 @@ jobs:
       - name: Run backend pytest suite
         env:
           MONGO_URI: mongodb://localhost:27017/twinq_map
+          JWT_SECRET: test-secret-for-ci-only
         run: |
           python -m pytest backend/tests/
 
