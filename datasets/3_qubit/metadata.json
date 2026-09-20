@@ -1,0 +1,45 @@
+{
+  "qubit_count": 3,
+  "qubits": [
+    "Q0",
+    "Q1",
+    "Q2"
+  ],
+  "basis_states_count": 8,
+  "topology": {
+    "edge_list": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ]
+    ],
+    "adjacency_list": {
+      "0": [
+        1,
+        2
+      ],
+      "1": [
+        0,
+        2
+      ],
+      "2": [
+        1,
+        0
+      ]
+    }
+  },
+  "calibration_equations": {
+    "t1_decay": "T1_0 * exp(-0.002 * epoch)",
+    "t2_decay": "T2_0 * exp(-0.003 * epoch)",
+    "readout_drift": "er_0 + 0.0001 * epoch + GaussianNoise",
+    "gate_error_growth": "eg_0 * (T0 / T(epoch))"
+  }
+}

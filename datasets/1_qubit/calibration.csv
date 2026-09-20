@@ -1,0 +1,2 @@
+qubit_id,epoch_number,t1,t2,readout_error,single_gate_error,two_gate_error,frequency,temperature,noise_drift,drift_rate,backend_status,backend_name,timestamp,version,is_deleted,t1_base,t2_base,frequency_base,readout_base,single_gate_base,qhi,run_id
+Q0,0,120.0,90.0,0.01,0.002,0.01,4.9,15.0,0.0,0.0,Active,TwinQ_Math_Simulator_5Q,2026-07-11T07:52:10.021722+00:00,1,False,120.0,90.0,4.9,0.01,0.002,0.9964000000000001,"Run - Jul 11, 2026 at 13:22:09"

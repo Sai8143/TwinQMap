@@ -1,0 +1,19 @@
+FROM node:20-alpine AS build
+
+WORKDIR /app
+
+# Copy dependency files
+COPY frontend/package.json frontend/package-lock.json* ./
+RUN npm install --legacy-peer-deps
+
+# Copy source files
+COPY frontend/ ./
+
+# Build frontend production bundle
+RUN npm run build
+
+# Nginx setup to serve static bundle
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

@@ -1,0 +1,81 @@
+{
+  "qubit_count": 5,
+  "qubits": [
+    "Q0",
+    "Q1",
+    "Q2",
+    "Q3",
+    "Q4"
+  ],
+  "basis_states_count": 32,
+  "topology": {
+    "edge_list": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        3,
+        4
+      ]
+    ],
+    "adjacency_list": {
+      "0": [
+        1,
+        4,
+        2
+      ],
+      "1": [
+        0,
+        2,
+        3
+      ],
+      "2": [
+        1,
+        3,
+        0,
+        4
+      ],
+      "3": [
+        2,
+        4,
+        1
+      ],
+      "4": [
+        3,
+        0,
+        2
+      ]
+    }
+  },
+  "calibration_equations": {
+    "t1_decay": "T1_0 * exp(-0.002 * epoch)",
+    "t2_decay": "T2_0 * exp(-0.003 * epoch)",
+    "readout_drift": "er_0 + 0.0001 * epoch + GaussianNoise",
+    "gate_error_growth": "eg_0 * (T0 / T(epoch))"
+  }
+}
