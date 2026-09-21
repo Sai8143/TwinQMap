@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, Optional
 import jwt
+import bcrypt
 from passlib.context import CryptContext
 from backend.config.settings import settings
 from backend.core.exceptions import AuthenticationException
@@ -14,16 +15,26 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     Verifies that a plain text password matches a hashed password.
     """
     try:
+        if hashed_password.startswith("$2a$") or hashed_password.startswith("$2b$"):
+            return bcrypt.checkpw(
+                plain_password.encode('utf-8'),
+                hashed_password.encode('utf-8')
+            )
         return pwd_context.verify(plain_password, hashed_password)
     except Exception as e:
         general_logger.error(f"Error verifying password hash: {str(e)}")
-        return False
+        try:
+            return pwd_context.verify(plain_password, hashed_password)
+        except Exception:
+            return False
 
 def get_password_hash(password: str) -> str:
     """
     Generates a secure hash from a plain text password.
     """
-    return pwd_context.hash(password)
+    pwd_bytes = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    return bcrypt.hashpw(pwd_bytes, salt).decode('utf-8')
 
 def create_access_token(data: Dict[str, Any], expires_delta: Optional[timedelta] = None) -> str:
     """
