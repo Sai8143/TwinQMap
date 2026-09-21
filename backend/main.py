@@ -57,6 +57,14 @@ app.add_middleware(GlobalErrorHandlerMiddleware)
 from backend.middlewares.rate_limiter import SimpleRateLimiterMiddleware
 app.add_middleware(SimpleRateLimiterMiddleware, limit=120)
 
+@app.get("/", tags=["Monitoring"])
+async def root():
+    return {
+        "message": "TwinQ-Map API Server Live",
+        "docs": f"{settings.API_V1_STR}/docs",
+        "health": f"{settings.API_V1_STR}/health"
+    }
+
 @app.get("/health", tags=["Monitoring"])
 @app.get("/api/v1/health", tags=["Monitoring"])
 async def health_check():
