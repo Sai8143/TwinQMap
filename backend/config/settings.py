@@ -38,8 +38,8 @@ class Settings(BaseSettings):
     OPERATION_MODE: str = "simulation"
 
     # Quantum Provider SDK API Tokens
-    IBM_QUANTUM_TOKEN: Optional[str] = None
-    IONQ_API_KEY: Optional[str] = None
+    IBM_QUANTUM_TOKEN: Optional[str] = os.getenv("IBM_QUANTUM_TOKEN", "LvZ4pIooBdgyBB3L691oSKAcp55C2DLhJka-ePYMNUmg")
+    IONQ_API_KEY: Optional[str] = os.getenv("IONQ_API_KEY", "boaQ5UxRaS0gPuHFz7RWHFKUOP7ysW9e")
     AWS_ACCESS_KEY_ID: Optional[str] = None
     AWS_SECRET_ACCESS_KEY: Optional[str] = None
     AWS_REGION: str = "us-east-1"
