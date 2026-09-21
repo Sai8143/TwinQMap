@@ -124,3 +124,31 @@ async def get_hardware_status():
             "token_masked": f"{settings.IONQ_API_KEY[:4]}...{settings.IONQ_API_KEY[-4:]}" if is_ionq_configured else "Not Configured"
         }
     }
+
+
+class ConfigUpdateRequest(BaseModel):
+    ibm_quantum_token: str = None
+    ionq_api_key: str = None
+
+
+@router.post(
+    "/config",
+    summary="Update Quantum Cloud API tokens dynamically at runtime"
+)
+async def update_quantum_tokens(
+    payload: ConfigUpdateRequest,
+    current_user: User = Depends(get_current_active_user)
+):
+    """
+    Updates active IBM Quantum Token and/or IonQ API Key in system runtime settings.
+    """
+    if payload.ibm_quantum_token is not None and payload.ibm_quantum_token.strip():
+        settings.IBM_QUANTUM_TOKEN = payload.ibm_quantum_token.strip()
+    if payload.ionq_api_key is not None and payload.ionq_api_key.strip():
+        settings.IONQ_API_KEY = payload.ionq_api_key.strip()
+
+    return {
+        "message": "Quantum provider API tokens updated successfully!",
+        "ibm_configured": settings.IBM_QUANTUM_TOKEN is not None and settings.IBM_QUANTUM_TOKEN != "token_placeholder_ibm",
+        "ionq_configured": settings.IONQ_API_KEY is not None and settings.IONQ_API_KEY != "key_placeholder_ionq"
+    }
