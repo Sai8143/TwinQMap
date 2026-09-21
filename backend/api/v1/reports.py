@@ -14,13 +14,15 @@ router = APIRouter(prefix="/reports", tags=["Reports System"])
     summary="Generate system reports (CSV, JSON, PDF)"
 )
 async def generate_report(
-    report_type: str = Query(..., description="Report categories: training, prediction, digital_twin, scheduler, qhi, execution"),
+    report_type: str = Query("comparison", description="Report categories: training, prediction, digital_twin, scheduler, qhi, execution, comparison"),
     report_format: str = Query("json", description="Output format: csv, json, pdf"),
+    format: str = Query(None, description="Alias for report_format"),
     current_user: User = Depends(get_current_active_user)
 ):
     """
     Dynamically generates performance and history reports in various serialization standards.
     """
+    effective_format = format or report_format or "json"
     from backend.database.connection import MongoDBManager
     from backend.machine_learning.training.runner import AutonomousSimulationRunner
     from datetime import datetime
@@ -57,7 +59,7 @@ async def generate_report(
                     doc[k] = v.isoformat()
             report_data.append(doc)
 
-    if report_format.lower() == "json":
+    if effective_format.lower() == "json":
         json_content = json.dumps({
             "report_type": report_type,
             "generated_by": current_user.username,
@@ -66,7 +68,7 @@ async def generate_report(
         }, indent=2)
         return Response(content=json_content, media_type="application/json", headers={"Content-Disposition": f"attachment; filename={report_type}_report.json"})
 
-    elif report_format.lower() == "csv":
+    elif effective_format.lower() == "csv":
         output = io.StringIO()
         if report_data:
             fieldnames = list(report_data[0].keys())

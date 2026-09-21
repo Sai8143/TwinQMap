@@ -26,7 +26,7 @@ api_router.include_router(training_router)
 
 @api_router.get("/calibrations/history")
 async def get_calibrations_history_alias(
-    qubit_id: str,
+    qubit_id: str = "Q0",
     limit: int = 50
 ):
     """

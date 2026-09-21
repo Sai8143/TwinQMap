@@ -34,7 +34,7 @@ def get_loaded_model(qubit_count: int = 5):
     summary="Forecast future calibration errors for physical qubits"
 )
 async def get_forecast(
-    qubit_id: str,
+    qubit_id: str = Query("Q0", description="Target qubit ID"),
     horizon_hours: int = 24,
     qubit_count: int = 5,
     cal_repo: CalibrationRepository = Depends(get_calibration_repository),
