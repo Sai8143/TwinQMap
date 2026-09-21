@@ -25,12 +25,12 @@ class Settings(BaseSettings):
     DEBUG: bool = True
 
     # Security Settings
-    JWT_SECRET: str
+    JWT_SECRET: str = os.getenv("JWT_SECRET", os.getenv("JWT_SECRET_KEY", "supersecretjwtkeythatshouldbechangedinproduction123!"))
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 43200
 
     # Database Settings
-    MONGODB_URL: str = "mongodb://localhost:27017"
+    MONGODB_URL: str = os.getenv("MONGODB_URL", os.getenv("MONGODB_URI", "mongodb://localhost:27017"))
     MONGODB_DB_NAME: str = "twinq_map"
 
     # Operation Mode
